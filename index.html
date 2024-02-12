@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hex to JSON and JSON to Hex Converter</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 flex flex-col items-center justify-center">
+    <div class="flex flex-wrap container mx-auto p-8 bg-white shadow-md rounded-lg max-w-4xl">
+        <div class="flex-auto lg:w-2/3 mb-4">
+      <h2 class="text-xl font-semibold mb-4">
+        Hex to JSON and JSON to Hex Converter Using Message Pack
+      </h2>
+
+      <div class="mb-4">
+        <label
+          for="hexInput"
+          class="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Enter Hex Value:
+        </label>
+        <input
+          type="text"
+          id="hexInput"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+        <button
+          onclick="hexToJson()"
+          class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Convert to JSON
+        </button>
+      </div>
+
+      <div class="mb-4">
+        <label
+          for="jsonInput"
+          class="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Enter JSON:
+        </label>
+        <textarea
+          id="jsonInput"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
+          oninput="formatJsonInput()"
+        ></textarea>
+        <button
+          onclick="jsonToHex()"
+          class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Convert to Hex
+        </button>
+      </div>
+
+      <div class="mb-4 overflow-auto p-3 bg-gray-100 rounded relative">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Converted JSON:
+        </label>
+        <pre
+          id="convertedJson"
+          class="text-green-600 whitespace-pre-wrap"
+        ></pre>
+        <button
+          onclick="copyToClipboard('convertedJson')"
+          class="absolute top-0 right-0 mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+        >
+          Copy
+        </button>
+      </div>
+
+      <div class="mb-4 relative">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          Converted Hex:
+        </label>
+        <p id="convertedHex" class="text-green-600 break-all"></p>
+        <button
+          onclick="copyToClipboard('convertedHex')"
+          class="absolute -top-4 right-0 mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
+        >
+          Copy
+        </button>
+      </div>
+    </div>
+    <div class="w-full lg:w-1/3 px-4">
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold">How to Use This Tool:</h3>
+        <ol class="list-decimal list-inside bg-gray-100 p-4 rounded">
+          <li>Go to RedisInsight.</li>
+          <li>Select the value you wish to update.</li>
+          <li>From the "Data Format" dropdown, choose "Hex".</li>
+          <li>
+            Copy and paste the Hex value into the "Enter Hex Value" field.
+          </li>
+          <li>Make your changes to the JSON output.</li>
+          <li>
+            Convert the updated JSON back to Hex using the "Convert to Hex"
+            button.
+          </li>
+          <li>Copy and paste the converted Hex back into RedisInsight.</li>
+        </ol>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/msgpack-lite/dist/msgpack.min.js"></script>
+    <script>
+      function hexToJson() {
+        var hexValue = document.getElementById("hexInput").value;
+        var bytes = hexToBytes(hexValue);
+        var jsonValue = msgpack.decode(bytes);
+        document.getElementById("convertedJson").textContent = JSON.stringify(
+          jsonValue,
+          null,
+          2
+        );
+      }
+
+      function jsonToHex() {
+        var jsonValue = JSON.parse(document.getElementById("jsonInput").value);
+        var bytes = msgpack.encode(jsonValue);
+        var hexValue = bytesToHex(bytes);
+        document.getElementById("convertedHex").textContent = hexValue;
+      }
+
+      function hexToBytes(hex) {
+        var bytes = [];
+        for (var i = 0; i < hex.length; i += 2) {
+          bytes.push(parseInt(hex.substr(i, 2), 16));
+        }
+        return new Uint8Array(bytes);
+      }
+
+      function bytesToHex(bytes) {
+        var hex = [];
+        for (var i = 0; i < bytes.length; i++) {
+          var byteStr = bytes[i].toString(16);
+          hex.push(byteStr.length === 1 ? "0" + byteStr : byteStr);
+        }
+        return hex.join("");
+      }
+
+      function copyToClipboard(elementId) {
+        var content = document.getElementById(elementId).textContent;
+        navigator.clipboard.writeText(content).then(
+          function () {
+            console.log("Copying to clipboard was successful!");
+          },
+          function (err) {
+            console.error("Could not copy text: ", err);
+          }
+        );
+      }
+    </script>
+  </body>
+</html>
