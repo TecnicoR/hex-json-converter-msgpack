@@ -3,6 +3,8 @@
 
 This tool allows you to convert Hexadecimal (Hex) strings to JSON objects and vice versa, utilizing MessagePack for encoding and decoding. It's designed to be a simple, user-friendly interface for working with data formats in development, debugging, or data analysis tasks.
 
+The tool is hosted and can be accessed at [https://tecnicor.github.io/hex-json-converter-msgpack/](https://tecnicor.github.io/hex-json-converter-msgpack/).
+
 ## Features
 
 - **Convert Hex to JSON:** Easily convert Hex strings to formatted JSON objects.
