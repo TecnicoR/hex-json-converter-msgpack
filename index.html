@@ -1,114 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hex to JSON and JSON to Hex Converter</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-gray-100 flex flex-col items-center justify-center">
-    <div class="flex flex-wrap container mx-auto p-8 bg-white shadow-md rounded-lg max-w-4xl">
-        <div class="flex-auto lg:w-2/3 mb-4">
-      <h2 class="text-xl font-semibold mb-4">
-        Hex to JSON and JSON to Hex Converter Using Message Pack
-      </h2>
+<head>
+  <!-- Essential Meta Tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hex to JSON and JSON to Hex Converter | Online Message Pack Tool</title>
+  <meta name="description" content="Easily convert between Hex and JSON formats using Message Pack with our user-friendly online tool. Perfect for developers working with RedisInsight and MessagePack data." />
+  <meta name="keywords" content="Hex to JSON, JSON to Hex, Message Pack converter, online converter, Hex, JSON, RedisInsight, MessagePack, developer tools, online tool" />
+  <meta name="author" content="Your Name" />
 
-      <div class="mb-4">
-        <label
-          for="hexInput"
-          class="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Enter Hex Value:
-        </label>
-        <input
-          type="text"
-          id="hexInput"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <button
-          onclick="hexToJson()"
-          class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Convert to JSON
-        </button>
-      </div>
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Hex to JSON and JSON to Hex Converter" />
+  <meta property="og:description" content="Easily convert between Hex and JSON formats using Message Pack with our user-friendly online tool." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourwebsite.com" />
+  <meta property="og:image" content="https://yourwebsite.com/og-image.png" />
 
-      <div class="mb-4">
-        <label
-          for="jsonInput"
-          class="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Enter JSON:
-        </label>
-        <textarea
-          id="jsonInput"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"
-          oninput="formatJsonInput()"
-        ></textarea>
-        <button
-          onclick="jsonToHex()"
-          class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Convert to Hex
-        </button>
-      </div>
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hex to JSON and JSON to Hex Converter" />
+  <meta name="twitter:description" content="Easily convert between Hex and JSON formats using Message Pack with our user-friendly online tool." />
+  <meta name="twitter:image" content="https://yourwebsite.com/twitter-image.png" />
 
-      <div class="mb-4 overflow-auto p-3 bg-gray-100 rounded relative">
-        <label class="block text-gray-700 text-sm font-bold mb-2">
-          Converted JSON:
-        </label>
-        <pre
-          id="convertedJson"
-          class="text-green-600 whitespace-pre-wrap"
-        ></pre>
-        <button
-          onclick="copyToClipboard('convertedJson')"
-          class="absolute top-0 right-0 mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
-        >
-          Copy
-        </button>
-      </div>
+  <!-- Tailwind CSS CDN -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
 
-      <div class="mb-4 relative">
-        <label class="block text-gray-700 text-sm font-bold mb-2">
-          Converted Hex:
-        </label>
-        <p id="convertedHex" class="text-green-600 break-all"></p>
-        <button
-          onclick="copyToClipboard('convertedHex')"
-          class="absolute -top-4 right-0 mt-2 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline"
-        >
-          Copy
-        </button>
-      </div>
-    </div>
-    <div class="w-full lg:w-1/3 px-4">
-      <div class="mb-4">
-        <h3 class="text-lg font-semibold">How to Use This Tool:</h3>
-        <ol class="list-decimal list-inside bg-gray-100 p-4 rounded">
-          <li>Go to RedisInsight.</li>
-          <li>Select the value you wish to update.</li>
-          <li>From the "Data Format" dropdown, choose "Hex".</li>
-          <li>
-            Copy and paste the Hex value into the "Enter Hex Value" field.
-          </li>
-          <li>Make your changes to the JSON output.</li>
-          <li>
-            Convert the updated JSON back to Hex using the "Convert to Hex"
-            button.
-          </li>
-          <li>Copy and paste the converted Hex back into RedisInsight.</li>
-        </ol>
-      </div>
+  <!-- Custom Styles -->
+  <style>
+    /* Custom Animations */
+    @keyframes gradientBackground {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    .animate-gradient {
+      background: linear-gradient(-45deg, #1e3a8a, #6366f1, #3b82f6, #06b6d4);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+    }
+  </style>
+</head>
+<body class="animate-gradient min-h-screen flex items-center justify-center">
+  <div class="container mx-auto p-6">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-white mb-2 animate-pulse">
+        Hex &lt;&gt; JSON Converter
+      </h1>
+      <p class="text-white text-lg">
+        Convert between Hex and JSON using Message Pack
+      </p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/msgpack-lite/dist/msgpack.min.js"></script>
-    <script>
-      function hexToJson() {
-        var hexValue = document.getElementById("hexInput").value;
+    <!-- Main Content -->
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="flex flex-col md:flex-row">
+        <!-- Left Column -->
+        <div class="md:w-2/3 p-6">
+          <!-- Hex to JSON -->
+          <div class="mb-6">
+            <label
+              for="hexInput"
+              class="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Enter Hex Value:
+            </label>
+            <input
+              type="text"
+              id="hexInput"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+            />
+            <button
+              onclick="hexToJson()"
+              class="mt-3 w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+            >
+              Convert to JSON
+            </button>
+          </div>
+
+          <!-- JSON to Hex -->
+          <div class="mb-6">
+            <label
+              for="jsonInput"
+              class="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Enter JSON:
+            </label>
+            <textarea
+              id="jsonInput"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 h-32"
+            ></textarea>
+            <button
+              onclick="jsonToHex()"
+              class="mt-3 w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+            >
+              Convert to Hex
+            </button>
+          </div>
+
+          <!-- Converted JSON -->
+          <div class="mb-6 relative">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Converted JSON:
+            </label>
+            <pre
+              id="convertedJson"
+              class="bg-gray-100 p-4 rounded-lg h-32 overflow-auto"
+            ></pre>
+            <button
+              onclick="copyToClipboard('convertedJson')"
+              class="absolute top-0 right-0 mt-2 mr-2 bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-300"
+            >
+              Copy
+            </button>
+          </div>
+
+          <!-- Converted Hex -->
+          <div class="mb-6 relative">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Converted Hex:
+            </label>
+            <pre
+              id="convertedHex"
+              class="bg-gray-100 p-4 rounded-lg h-32 overflow-auto break-all"
+            ></pre>
+            <button
+              onclick="copyToClipboard('convertedHex')"
+              class="absolute top-0 right-0 mt-2 mr-2 bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-300"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="md:w-1/3 bg-blue-50 p-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            How to Use This Tool:
+          </h2>
+          <ol class="list-decimal list-inside text-gray-700 space-y-2">
+            <li>Go to RedisInsight.</li>
+            <li>Select the value you wish to update.</li>
+            <li>From the "Data Format" dropdown, choose "Hex".</li>
+            <li>
+              Copy and paste the Hex value into the "Enter Hex Value"
+              field.
+            </li>
+            <li>Make your changes to the JSON output.</li>
+            <li>
+              Convert the updated JSON back to Hex using the "Convert
+              to Hex" button.
+            </li>
+            <li>
+              Copy and paste the converted Hex back into RedisInsight.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MsgPack JS -->
+  <script src="https://cdn.jsdelivr.net/npm/msgpack-lite/dist/msgpack.min.js"></script>
+  <!-- Custom Script -->
+  <script>
+    function hexToJson() {
+      try {
+        var hexValue = document.getElementById("hexInput").value.trim();
+        if (!hexValue) {
+          alert("Please enter a Hex value.");
+          return;
+        }
         var bytes = hexToBytes(hexValue);
         var jsonValue = msgpack.decode(bytes);
         document.getElementById("convertedJson").textContent = JSON.stringify(
@@ -116,43 +187,71 @@
           null,
           2
         );
+      } catch (error) {
+        alert("Invalid Hex input.");
       }
+    }
 
-      function jsonToHex() {
-        var jsonValue = JSON.parse(document.getElementById("jsonInput").value);
+    function jsonToHex() {
+      try {
+        var jsonText = document.getElementById("jsonInput").value.trim();
+        if (!jsonText) {
+          alert("Please enter JSON.");
+          return;
+        }
+        var jsonValue = JSON.parse(jsonText);
         var bytes = msgpack.encode(jsonValue);
         var hexValue = bytesToHex(bytes);
         document.getElementById("convertedHex").textContent = hexValue;
+      } catch (error) {
+        alert("Invalid JSON input.");
+      }
+    }
+
+    function hexToBytes(hex) {
+      var bytes = [];
+      for (var i = 0; i < hex.length; i += 2) {
+        bytes.push(parseInt(hex.substr(i, 2), 16));
+      }
+      return new Uint8Array(bytes);
+    }
+
+    function bytesToHex(bytes) {
+      var hex = [];
+      for (var i = 0; i < bytes.length; i++) {
+        var byteStr = bytes[i].toString(16);
+        hex.push(byteStr.length === 1 ? "0" + byteStr : byteStr);
+      }
+      return hex.join("");
+    }
+
+    function copyToClipboard(elementId) {
+      var contentElement = document.getElementById(elementId);
+      var content = contentElement.textContent || contentElement.innerText;
+      if (!content) {
+        alert("Nothing to copy.");
+        return;
       }
 
-      function hexToBytes(hex) {
-        var bytes = [];
-        for (var i = 0; i < hex.length; i += 2) {
-          bytes.push(parseInt(hex.substr(i, 2), 16));
+      var tempInput = document.createElement("textarea");
+      tempInput.value = content;
+      document.body.appendChild(tempInput);
+      tempInput.focus();
+      tempInput.select();
+
+      try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+          alert("Copied to clipboard!");
+        } else {
+          alert("Copy failed. Please copy manually.");
         }
-        return new Uint8Array(bytes);
+      } catch (err) {
+        alert("Copy failed. Please copy manually.");
       }
 
-      function bytesToHex(bytes) {
-        var hex = [];
-        for (var i = 0; i < bytes.length; i++) {
-          var byteStr = bytes[i].toString(16);
-          hex.push(byteStr.length === 1 ? "0" + byteStr : byteStr);
-        }
-        return hex.join("");
-      }
-
-      function copyToClipboard(elementId) {
-        var content = document.getElementById(elementId).textContent;
-        navigator.clipboard.writeText(content).then(
-          function () {
-            console.log("Copying to clipboard was successful!");
-          },
-          function (err) {
-            console.error("Could not copy text: ", err);
-          }
-        );
-      }
-    </script>
-  </body>
+      document.body.removeChild(tempInput);
+    }
+  </script>
+</body>
 </html>
